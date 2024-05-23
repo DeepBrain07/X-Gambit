@@ -23,6 +23,8 @@ class PossiblePositions:
                 y += self.box_size
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
+                else:
+                    break
             
             x,y = curr_pos
             while ((x >= 0 and x <= 700) and (y >= 0 and y <= 700)):
@@ -30,6 +32,8 @@ class PossiblePositions:
                 y = y
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
+                else:
+                    break
 
             x,y = curr_pos
             while ((x >= 0 and x <= 700) and (y >= 0 and y <= 700)):
@@ -37,6 +41,8 @@ class PossiblePositions:
                 y = y
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
+                else:
+                    break
         return(pos_pos)
     
     def knight(self):
@@ -94,6 +100,8 @@ class PossiblePositions:
                 y -= self.box_size
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
+                else:
+                    break
             
             x,y = curr_pos
             while ((x >= 0 and x <= 700) and (y >= 0 and y <= 700)):
@@ -101,6 +109,8 @@ class PossiblePositions:
                 y -= self.box_size
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
+                else:
+                    break
 
             x,y = curr_pos
             while ((x >= 0 and x <= 700) and (y >= 0 and y <= 700)):
@@ -108,6 +118,8 @@ class PossiblePositions:
                 y += self.box_size
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
+                else:
+                    break
         return(pos_pos)
     
     def queen(self):
@@ -116,3 +128,59 @@ class PossiblePositions:
         bishops_pos_pos = self.bishop()
         pos_pos = rooks_pos_pos + bishops_pos_pos
         return pos_pos
+    
+    def king(self):
+        pieces = list(self.piece.keys())
+        pos_pos = [] # a list of all possible positions of the piece
+        for i in range(len(pieces)):
+            key = pieces[i]
+            curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
+            
+            x, y = curr_pos
+            x = x
+            y -= self.box_size
+            if ((y >= 0 and y <=700) and (x >= 0 and x <=700)):
+                pos_pos.append((x,y))
+        
+            x,y = curr_pos
+            x = x
+            y += self.box_size
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+            
+            x,y = curr_pos
+            x -= self.box_size
+            y = y
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+
+            x,y = curr_pos
+            x += self.box_size
+            y = y
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+            
+            x, y = curr_pos
+            x += self.box_size
+            y += self.box_size
+            if ((y >= 0 and y <=700) and (x >= 0 and x <=700)):
+                pos_pos.append((x,y))
+        
+            x,y = curr_pos
+            x -= self.box_size
+            y -= self.box_size
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+            
+            x,y = curr_pos
+            x += self.box_size
+            y -= self.box_size
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+
+            x,y = curr_pos
+            x -= self.box_size
+            y += self.box_size
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+        return(pos_pos)

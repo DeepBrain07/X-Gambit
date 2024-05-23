@@ -96,8 +96,8 @@ for i in range(9):
             pygame.display.update()
         iter = 1
     draw_pieces()
-    rook_possible_positions = PossiblePositions(white_pos['queen'])
-    pos_pos = rook_possible_positions.queen()
+    rook_possible_positions = PossiblePositions(white_pos['king'])
+    pos_pos = rook_possible_positions.king()
     for i in range(len(pos_pos)):
         x, y = pos_pos[i]
         x = x + 50
