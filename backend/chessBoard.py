@@ -1,5 +1,6 @@
 import pygame
 import time
+from possiblePositions import PossiblePositions
 
 pygame.init()
 win = pygame.display.set_mode((1000, 800))
@@ -95,6 +96,13 @@ for i in range(9):
             pygame.display.update()
         iter = 1
     draw_pieces()
+    rook_possible_positions = PossiblePositions(white_pos['rook'])
+    pos_pos = rook_possible_positions.rook()
+    for i in range(len(pos_pos)):
+        x, y = pos_pos[i]
+        x = x + 50
+        y = y + 50
+        pygame.draw.circle(win, (125,125,125), (x,y) , 10)
 iter = 1
 
 
