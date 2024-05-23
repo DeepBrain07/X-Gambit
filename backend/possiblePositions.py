@@ -109,3 +109,10 @@ class PossiblePositions:
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
         return(pos_pos)
+    
+    def queen(self):
+        pos_pos = [] # a list of all possible positions of the piece
+        rooks_pos_pos = self.rook()
+        bishops_pos_pos = self.bishop()
+        pos_pos = rooks_pos_pos + bishops_pos_pos
+        return pos_pos
