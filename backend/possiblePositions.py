@@ -37,5 +37,39 @@ class PossiblePositions:
                 y = y
                 if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                     pos_pos.append((x,y))
-        print(pos_pos)
         return(pos_pos)
+    def knight(self):
+        pieces = list(self.piece.keys())
+        pos_pos = [] # a list of all possible positions of the piece
+        for i in range(len(pieces)):
+            key = pieces[i]
+            curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
+            x, y = curr_pos
+            print(x,y)
+            if ((x+(self.box_size*2) >= 0 and x+(self.box_size*2) <= 700) and (y-self.box_size >= 0 and y-self.box_size <= 700)):
+                pos_pos.append((x+(self.box_size*2), y-self.box_size))
+            
+            if ((x+(self.box_size*2) >= 0 and x+(self.box_size*2) <= 700) and (y+self.box_size >= 0 and y+self.box_size <= 700)):
+                pos_pos.append((x+(self.box_size*2), y+self.box_size))
+
+            if ((x-(self.box_size*2) >= 0 and x-(self.box_size*2) <= 700) and (y-self.box_size >= 0 and y-self.box_size <= 700)):
+                pos_pos.append((x-(self.box_size*2), y-self.box_size))
+
+            if ((x-(self.box_size*2) >= 0 and x-(self.box_size*2) <= 700) and (y+self.box_size >= 0 and y+self.box_size <= 700)):
+                pos_pos.append((x-(self.box_size*2), y+self.box_size))
+
+            if ((x+self.box_size >= 0 and x+self.box_size <= 700) and (y-(self.box_size*2) >= 0 and y-(self.box_size*2) <= 700)):
+                pos_pos.append((x+self.box_size, y-(self.box_size*2)))
+
+            if ((x-self.box_size >= 0 and x-self.box_size <= 700) and (y-(self.box_size*2) >= 0 and y-(self.box_size*2) <= 700)):
+                pos_pos.append((x-self.box_size, y-(self.box_size*2)))
+
+            if ((x+self.box_size >= 0 and x+self.box_size <= 700) and (y+(self.box_size*2) >= 0 and y+(self.box_size*2) <= 700)):
+                pos_pos.append((x+self.box_size, y+(self.box_size*2)))
+
+            if ((x-self.box_size >= 0 and x-self.box_size <= 700) and (y+(self.box_size*2) >= 0 and y+(self.box_size*2) <= 700)):
+                pos_pos.append((x-self.box_size, y+(self.box_size*2)))
+            # pos_pos_alt = [(x+2, y-1), (x+2, y+1), (x-2, y-1), (x-2, y+1), (x+1, y-2), (x-1, y-2), (x+1, y+2), (x-1, y+2)]
+            
+        print(pos_pos)
+        return pos_pos
