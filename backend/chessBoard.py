@@ -54,30 +54,30 @@ white_pieces_all = {'rook': white_rook, 'knight': white_knight, 'bishop': white_
 white_pos = {'rook': {'1':{'curr_pos': (0,0), 'pos_pos': []}, '2':{'curr_pos': (700,0), 'pos_pos': []}}, 'knight': {'1':{'curr_pos': (100,0), 'pos_pos': []}, '2':{'curr_pos': (600,0), 'pos_pos': []}},
              'bishop': {'1':{'curr_pos': (200,0), 'pos_pos': []}, '2':{'curr_pos': (500,0), 'pos_pos': []}}, 'queen': {'1':{'curr_pos': (300,0), 'pos_pos': []}}, 'king': {'1':{'curr_pos': (400,0), 'pos_pos': []}},
              'pawn': {'1':{'curr_pos': (0,100), 'pos_pos': []}, '2':{'curr_pos': (100,100), 'pos_pos': []}, '3':{'curr_pos': (200,100), 'pos_pos': []}, '4':{'curr_pos': (300,100), 'pos_pos': []}, '5':{'curr_pos': (400,100), 'pos_pos': []}, '6':{'curr_pos': (500,100), 'pos_pos': []}, '7':{'curr_pos': (600,100), 'pos_pos': []}, '8':{'curr_pos': (700,100), 'pos_pos': []}}}
-# white_pos = {'rook': [[(0,0), (700,0)], white_rook], 'knight': [[(100,0), (600,0)], white_knight], 'bishop': [[(200,0), (500,0)], white_bishop],
-#              'queen': [[(300,0)], white_queen], 'king': [[(400,0)], white_king], 'pawn': [[(0,100), (100,100), (200,100), (300,100), (400,100), (500,100), (600,100), (700,100)], white_pawn]} 
 
-black_pos = {'rook': [[(0,700), (700,700)], black_rook], 'knight': [[(100,700), (600,700)], black_knight], 'bishop': [[(200,700), (500,700)], black_bishop],
-             'queen': [[(300,700)], black_queen], 'king': [[(400,700)], black_king], 'pawn': [[(0,600), (100,600), (200,600), (300,600), (400,600), (500,600), (600,600), (700,600)], black_pawn]} 
+black_pieces_all = {'rook': black_rook, 'knight': black_knight, 'bishop': black_bishop, 'queen': black_queen, 'king': black_king, 'pawn': black_pawn}
+black_pos = {'rook': {'1':{'curr_pos': (0,700), 'pos_pos': []}, '2':{'curr_pos': (700,700), 'pos_pos': []}}, 'knight': {'1':{'curr_pos': (100,700), 'pos_pos': []}, '2':{'curr_pos': (600,700), 'pos_pos': []}},
+             'bishop': {'1':{'curr_pos': (200,700), 'pos_pos': []}, '2':{'curr_pos': (500,700), 'pos_pos': []}}, 'queen': {'1':{'curr_pos': (300,700), 'pos_pos': []}}, 'king': {'1':{'curr_pos': (400,700), 'pos_pos': []}},
+             'pawn': {'1':{'curr_pos': (0,600), 'pos_pos': []}, '2':{'curr_pos': (100,600), 'pos_pos': []}, '3':{'curr_pos': (200,600), 'pos_pos': []}, '4':{'curr_pos': (300,600), 'pos_pos': []}, '5':{'curr_pos': (400,600), 'pos_pos': []}, '6':{'curr_pos': (500,600), 'pos_pos': []}, '7':{'curr_pos': (600,600), 'pos_pos': []}, '8':{'curr_pos': (700,600), 'pos_pos': []}}}
+
+# black_pos = {'rook': [[(0,700), (700,700)], black_rook], 'knight': [[(100,700), (600,700)], black_knight], 'bishop': [[(200,700), (500,700)], black_bishop],
+#              'queen': [[(300,700)], black_queen], 'king': [[(400,700)], black_king], 'pawn': [[(0,600), (100,600), (200,600), (300,600), (400,600), (500,600), (600,600), (700,600)], black_pawn]} 
 
 def draw_pieces():
     # draws all the chess pieces on the board
     
-    white_pieces = list(white_pos.keys())
+    white_pieces = list(white_pos.keys()) # a list of all the white pieces
     for i in range(len(white_pieces)):
         piece = white_pieces[i]
         for j in range(len(list(white_pos[piece].keys()))):
             win.blit(white_pieces_all[piece], white_pos[piece][str(j+1)]['curr_pos'])
     
-    # white_pieces = list(white_pos.keys()) # a list of all the white pieces
-    # for i in range(len(white_pieces)):
-    #     for j in range(len(white_pos[white_pieces[i]][0])):
-    #         win.blit(white_pos[white_pieces[i]][1], white_pos[white_pieces[i]][0][j])
-
-    # black_pieces = list(black_pos.keys()) # a list of all the black pieces
-    # for i in range(len(black_pieces)):
-    #     for j in range(len(black_pos[black_pieces[i]][0])):
-    #         win.blit(black_pos[black_pieces[i]][1], black_pos[black_pieces[i]][0][j])
+    
+    black_pieces = list(black_pos.keys()) # a list of all the black pieces
+    for i in range(len(black_pieces)):
+        piece = black_pieces[i]
+        for j in range(len(list(black_pos[piece].keys()))):
+            win.blit(black_pieces_all[piece], black_pos[piece][str(j+1)]['curr_pos'])
 
 for i in range(9):
     if iter == 1:
