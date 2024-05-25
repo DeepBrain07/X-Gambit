@@ -1,6 +1,7 @@
 import pygame
 import time
 from possiblePositions import PossiblePositions
+from checkAvailablePositions import *
 
 pygame.init()
 win = pygame.display.set_mode((1000, 800))
@@ -53,16 +54,13 @@ black_pawn = pygame.transform.scale(black_pawn, img_scale)
 black_pawn_small = pygame.transform.scale(black_pawn, small_img_scale)
 white_pieces_all = {'rook': white_rook, 'knight': white_knight, 'bishop': white_bishop, 'queen': white_queen, 'king': white_king, 'pawn': white_pawn}
 white_pos = {'rook': {'1':{'curr_pos': (0,0), 'pos_pos': []}, '2':{'curr_pos': (700,0), 'pos_pos': []}}, 'knight': {'1':{'curr_pos': (100,0), 'pos_pos': []}, '2':{'curr_pos': (600,0), 'pos_pos': []}},
-             'bishop': {'1':{'curr_pos': (200,0), 'pos_pos': []}, '2':{'curr_pos': (500,0), 'pos_pos': []}}, 'queen': {'1':{'curr_pos': (300,0), 'pos_pos': []}}, 'king': {'1':{'curr_pos': (400,0), 'pos_pos': []}},
+             'bishop': {'1':{'curr_pos': (400,400), 'pos_pos': []}, '2':{'curr_pos': (500,0), 'pos_pos': []}}, 'queen': {'1':{'curr_pos': (300,0), 'pos_pos': []}}, 'king': {'1':{'curr_pos': (400,0), 'pos_pos': []}},
              'pawn': {'1':{'curr_pos': (0,100), 'pos_pos': []}, '2':{'curr_pos': (100,100), 'pos_pos': []}, '3':{'curr_pos': (200,100), 'pos_pos': []}, '4':{'curr_pos': (300,100), 'pos_pos': []}, '5':{'curr_pos': (400,100), 'pos_pos': []}, '6':{'curr_pos': (500,100), 'pos_pos': []}, '7':{'curr_pos': (600,100), 'pos_pos': []}, '8':{'curr_pos': (700,100), 'pos_pos': []}}}
 
 black_pieces_all = {'rook': black_rook, 'knight': black_knight, 'bishop': black_bishop, 'queen': black_queen, 'king': black_king, 'pawn': black_pawn}
 black_pos = {'rook': {'1':{'curr_pos': (0,700), 'pos_pos': []}, '2':{'curr_pos': (700,700), 'pos_pos': []}}, 'knight': {'1':{'curr_pos': (100,700), 'pos_pos': []}, '2':{'curr_pos': (600,700), 'pos_pos': []}},
              'bishop': {'1':{'curr_pos': (200,700), 'pos_pos': []}, '2':{'curr_pos': (500,700), 'pos_pos': []}}, 'queen': {'1':{'curr_pos': (300,700), 'pos_pos': []}}, 'king': {'1':{'curr_pos': (400,700), 'pos_pos': []}},
              'pawn': {'1':{'curr_pos': (0,600), 'pos_pos': []}, '2':{'curr_pos': (100,600), 'pos_pos': []}, '3':{'curr_pos': (200,600), 'pos_pos': []}, '4':{'curr_pos': (300,600), 'pos_pos': []}, '5':{'curr_pos': (400,600), 'pos_pos': []}, '6':{'curr_pos': (500,600), 'pos_pos': []}, '7':{'curr_pos': (600,600), 'pos_pos': []}, '8':{'curr_pos': (700,600), 'pos_pos': []}}}
-
-# black_pos = {'rook': [[(0,700), (700,700)], black_rook], 'knight': [[(100,700), (600,700)], black_knight], 'bishop': [[(200,700), (500,700)], black_bishop],
-#              'queen': [[(300,700)], black_queen], 'king': [[(400,700)], black_king], 'pawn': [[(0,600), (100,600), (200,600), (300,600), (400,600), (500,600), (600,600), (700,600)], black_pawn]} 
 
 def draw_pieces():
     # draws all the chess pieces on the board
@@ -80,6 +78,7 @@ def draw_pieces():
         for j in range(len(list(black_pos[piece].keys()))):
             win.blit(black_pieces_all[piece], black_pos[piece][str(j+1)]['curr_pos'])
 
+
 for i in range(9):
     if iter == 1:
         for j in range(iter, 9, 2):
@@ -96,10 +95,16 @@ for i in range(9):
             pygame.display.update()
         iter = 1
     draw_pieces()
-    rook_possible_positions = PossiblePositions(white_pos['king'])
-    pos_pos = rook_possible_positions.king()
-    for i in range(len(pos_pos)):
-        x, y = pos_pos[i]
+    piece = 'bishop'
+    curr_pos = white_pos[piece]['1']['curr_pos']
+    
+    possible_positions = PossiblePositions(white_pos[piece])
+    new_piece = possible_positions.bishop()
+    pos_pos = white_pos[piece]['1']['pos_pos']
+    available_pos = check_bishop_available_positions(pos_pos, curr_pos, white_pos, black_pos)
+    
+    for i in range(len(available_pos)):
+        x, y = available_pos[i]
         x = x + 50
         y = y + 50
         pygame.draw.circle(win, (125,125,125), (x,y) , 10)

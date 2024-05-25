@@ -4,8 +4,8 @@ class PossiblePositions:
         self.box_size = 100
     def rook(self):
         pieces = list(self.piece.keys())
-        pos_pos = [] # a list of all possible positions of the piece
         for i in range(len(pieces)):
+            pos_pos = [] # a list of all possible positions of the piece
             key = pieces[i]
             curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
             x, y = curr_pos
@@ -43,16 +43,16 @@ class PossiblePositions:
                     pos_pos.append((x,y))
                 else:
                     break
-        return(pos_pos)
+            self.piece[pieces[i]]['pos_pos'] = pos_pos
+        return(self.piece)
     
     def knight(self):
         pieces = list(self.piece.keys())
-        pos_pos = [] # a list of all possible positions of the piece
         for i in range(len(pieces)):
+            pos_pos = [] # a list of all possible positions of the piece
             key = pieces[i]
             curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
             x, y = curr_pos
-            print(x,y)
             if ((x+(self.box_size*2) >= 0 and x+(self.box_size*2) <= 700) and (y-self.box_size >= 0 and y-self.box_size <= 700)):
                 pos_pos.append((x+(self.box_size*2), y-self.box_size))
             
@@ -77,12 +77,13 @@ class PossiblePositions:
             if ((x-self.box_size >= 0 and x-self.box_size <= 700) and (y+(self.box_size*2) >= 0 and y+(self.box_size*2) <= 700)):
                 pos_pos.append((x-self.box_size, y+(self.box_size*2)))
             # pos_pos_alt = [(x+2, y-1), (x+2, y+1), (x-2, y-1), (x-2, y+1), (x+1, y-2), (x-1, y-2), (x+1, y+2), (x-1, y+2)]
-        return pos_pos
+            self.piece[pieces[i]]['pos_pos'] = pos_pos
+        return(self.piece)
 
     def bishop(self):
         pieces = list(self.piece.keys())
-        pos_pos = [] # a list of all possible positions of the piece
         for i in range(len(pieces)):
+            pos_pos = [] # a list of all possible positions of the piece
             key = pieces[i]
             curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
             x, y = curr_pos
@@ -120,19 +121,26 @@ class PossiblePositions:
                     pos_pos.append((x,y))
                 else:
                     break
-        return(pos_pos)
+            self.piece[pieces[i]]['pos_pos'] = pos_pos
+        return(self.piece)
     
     def queen(self):
-        pos_pos = [] # a list of all possible positions of the piece
-        rooks_pos_pos = self.rook()
-        bishops_pos_pos = self.bishop()
-        pos_pos = rooks_pos_pos + bishops_pos_pos
-        return pos_pos
+        pieces = list(self.piece.keys())
+        for i in range(len(pieces)):
+            pos_pos = [] # a list of all possible positions of the piece
+            new_rook = self.rook()
+            for p in new_rook.keys():
+                pos_pos += new_rook[p]['pos_pos']
+            new_bishop = self.bishop()
+            for p in new_bishop.keys():
+                pos_pos += new_rook[p]['pos_pos']
+            self.piece[pieces[i]]['pos_pos'] = pos_pos
+        return(self.piece)
     
     def king(self):
         pieces = list(self.piece.keys())
-        pos_pos = [] # a list of all possible positions of the piece
         for i in range(len(pieces)):
+            pos_pos = [] # a list of all possible positions of the piece
             key = pieces[i]
             curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
             
@@ -183,4 +191,18 @@ class PossiblePositions:
             y += self.box_size
             if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                 pos_pos.append((x,y))
-        return(pos_pos)
+            self.piece[pieces[i]]['pos_pos'] = pos_pos
+        return(self.piece)
+
+    def pawn(self):
+        pieces = list(self.piece.keys())
+        for i in range(len(pieces)):
+            pos_pos = [] # a list of all possible positions of the piece
+            key = pieces[i]
+            curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
+            x, y = curr_pos
+            y += self.box_size
+            if (y >= 0 and y <=700) and (x >= 0 and x <=700):
+                pos_pos.append((x,y))
+            self.piece[pieces[i]]['pos_pos'] = pos_pos
+        return(self.piece)
