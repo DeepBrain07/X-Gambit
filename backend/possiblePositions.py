@@ -1,7 +1,21 @@
 class PossiblePositions:
-    def __init__(self, piece) -> None:
+    def __init__(self, piece, piece_name) -> None:
         self.piece = piece
+        self.piece_name = piece_name
         self.box_size = 100
+        if self.piece_name == 'rook':
+            self.rook()
+        elif self.piece_name == 'bishop':
+            self.bishop()
+        elif self.piece_name == 'knight':
+            self.knight()
+        elif self.piece_name == 'queen':
+            self.queen()
+        elif self.piece_name == 'king':
+            self.king()
+        elif self.piece_name == 'pawn':
+            self.pawn()
+
     def rook(self):
         pieces = list(self.piece.keys())
         for i in range(len(pieces)):
