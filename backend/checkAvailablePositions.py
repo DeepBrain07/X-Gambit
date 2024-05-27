@@ -316,7 +316,7 @@ def check_pawn_available_positions(piece_pos, curr_pos, your_pos, op_pieces, n, 
     if (alt_x2, alt_y2) in op_pieces_pos and (alt_x2 >= 0 and alt_x2 <= 700) and (alt_y2 >= 0 and alt_y2 <= 700):
         available_positions.append((alt_x2, alt_y2))
 
-    if available_positions == []:
+    if available_positions == [] and piece_pos != []:
         x,y = piece_pos[0]
         if ((x,y) not in  your_pieces_pos) and ((x,y) not in  op_pieces_pos):
             available_positions.append((x,y))

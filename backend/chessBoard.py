@@ -103,7 +103,7 @@ def draw_board():
             iter = 1
     return rects
 
-clicked = {'clicked': False, 'piece': '', 'n': ''}
+clicked = {'clicked': False, 'piece': '', 'n': '', 'enable_route': True}
 rects = draw_board()
 draw_pieces()
 running = True
@@ -142,7 +142,6 @@ while running:
                             available_pos = check_king_available_positions(pos_pos, curr_pos, black_pos, white_pos)
                         elif piece == 'pawn':
                             available_pos = check_pawn_available_positions(pos_pos, curr_pos, black_pos, white_pos, n, 'black')
-                        print(clicked_pos, curr_pos)
                         if clicked_pos == curr_pos:
                             for i in range(len(available_pos)):
                                 x, y = available_pos[i]
@@ -150,14 +149,20 @@ while running:
                                 y = y + 50
                                 pygame.draw.circle(win, (125,125,125), (x,y) , 10)
                         elif clicked_pos in available_pos:
-                            black_pos[piece][n]['curr_pos'] = clicked_pos
                             if clicked_pos in op_pieces_pos:
                                 op_piece, op_n = find_piece(white_pos, clicked_pos)
-                                print(op_piece, op_n)
                                 del white_pos[op_piece][op_n]
+                            black_pos[piece][n]['curr_pos'] = clicked_pos
+                            if piece == 'pawn' and clicked_pos == (clicked_pos[0], 0):
+                                 chosen_piece = 'queen'
+                                 chosen_piece_no = len(black_pos[chosen_piece].keys())
+                                 print(chosen_piece_no)
+                                 black_pos[chosen_piece][str(chosen_piece_no + 1)] = {'curr_pos': clicked_pos, 'pos_pos': []}
+                                 del black_pos[piece][n]
                             rects = draw_board()
                             draw_pieces()
                             clicked['clicked'] = False   
+                            clicked['enable_route'] = False 
                         else:
                             clicked['clicked'] = False 
                         
@@ -180,14 +185,15 @@ while running:
                                 available_pos = check_king_available_positions(pos_pos, curr_pos, black_pos, white_pos)
                             elif piece == 'pawn':
                                 available_pos = check_pawn_available_positions(pos_pos, curr_pos, black_pos, white_pos, n, 'black')
-
-                            for i in range(len(available_pos)):
-                                x, y = available_pos[i]
-                                x = x + 50
-                                y = y + 50
-                                pygame.draw.circle(win, (125,125,125), (x,y) , 10)
+                            if clicked['enable_route']:
+                                for i in range(len(available_pos)):
+                                    x, y = available_pos[i]
+                                    x = x + 50
+                                    y = y + 50
+                                    pygame.draw.circle(win, (125,125,125), (x,y) , 10)
                             clicked['clicked'] = True
                             clicked['piece'] = piece
                             clicked['n'] = n
+                            clicked['enable_route'] = True 
     pygame.display.flip()
 
