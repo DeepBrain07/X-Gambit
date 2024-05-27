@@ -281,7 +281,7 @@ def check_knight_available_positions(piece_pos, curr_pos, your_pos, op_pieces):
     print(piece_pos, "======", available_positions)
     return available_positions
 
-def check_pawn_available_positions(piece_pos, curr_pos, your_pos, op_pieces, n):
+def check_pawn_available_positions(piece_pos, curr_pos, your_pos, op_pieces, n, type):
     box_size = 100
     available_positions = []
     op_pieces_pos = [] # opponent's pieces positions
@@ -298,14 +298,21 @@ def check_pawn_available_positions(piece_pos, curr_pos, your_pos, op_pieces, n):
             pos = your_pos[i][j]['curr_pos']
             your_pieces_pos.append(pos)
 
-    x,y = curr_pos   
-    alt_y = y + box_size
-    alt_x = x + box_size
+    x,y = curr_pos  
+    if type == "white":
+        alt_y = y + box_size
+        alt_x = x + box_size
+        alt_y2 = y + box_size
+        alt_x2 = x - box_size
+    if type == "black":
+        alt_y = y - box_size
+        alt_x = x + box_size
+        alt_y2 = y - box_size
+        alt_x2 = x - box_size
+        
     if (alt_x, alt_y) in op_pieces_pos and (alt_x >= 0 and alt_x <= 700) and (alt_y >= 0 and alt_y <= 700):
         available_positions.append((alt_x, alt_y))
     
-    alt_y2 = y + box_size
-    alt_x2 = x - box_size
     if (alt_x2, alt_y2) in op_pieces_pos and (alt_x2 >= 0 and alt_x2 <= 700) and (alt_y2 >= 0 and alt_y2 <= 700):
         available_positions.append((alt_x2, alt_y2))
 
@@ -314,7 +321,11 @@ def check_pawn_available_positions(piece_pos, curr_pos, your_pos, op_pieces, n):
         if ((x,y) not in  your_pieces_pos) and ((x,y) not in  op_pieces_pos):
             available_positions.append((x,y))
         if your_pos['pawn'][n]['moved'] is False:
-            y2 = y + box_size
+            if type == 'white':
+                y2 = y + box_size
+            elif type == 'black':
+                y2 = y - box_size
+
             if ((x,y2) not in  your_pieces_pos) and ((x,y2) not in  op_pieces_pos):
                 if ((x,y) not in  your_pieces_pos) and ((x,y) not in  op_pieces_pos):
                     available_positions.append((x,y2))

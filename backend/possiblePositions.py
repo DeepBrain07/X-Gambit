@@ -1,5 +1,5 @@
 class PossiblePositions:
-    def __init__(self, piece, piece_name) -> None:
+    def __init__(self, piece, piece_name, type='white') -> None:
         self.piece = piece
         self.piece_name = piece_name
         self.box_size = 100
@@ -14,7 +14,7 @@ class PossiblePositions:
         elif self.piece_name == 'king':
             self.king()
         elif self.piece_name == 'pawn':
-            self.pawn()
+            self.pawn(type)
 
     def rook(self):
         pieces = list(self.piece.keys())
@@ -208,14 +208,17 @@ class PossiblePositions:
             self.piece[pieces[i]]['pos_pos'] = pos_pos
         return(self.piece)
 
-    def pawn(self):
+    def pawn(self, type):
         pieces = list(self.piece.keys())
         for i in range(len(pieces)):
             pos_pos = [] # a list of all possible positions of the piece
             key = pieces[i]
             curr_pos = self.piece[key]['curr_pos'] # get the current position of the piece
             x, y = curr_pos
-            y += self.box_size
+            if type == 'white':
+                y += self.box_size
+            elif type == 'black':
+                y -= self.box_size
             if (y >= 0 and y <=700) and (x >= 0 and x <=700):
                 pos_pos.append((x,y))
             self.piece[pieces[i]]['pos_pos'] = pos_pos

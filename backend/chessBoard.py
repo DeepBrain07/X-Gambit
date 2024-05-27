@@ -68,15 +68,15 @@ def draw_pieces():
     white_pieces = list(white_pos.keys()) # a list of all the white pieces
     for i in range(len(white_pieces)):
         piece = white_pieces[i]
-        for j in range(len(list(white_pos[piece].keys()))):
-            win.blit(white_pieces_all[piece], white_pos[piece][str(j+1)]['curr_pos'])
+        for j in list(white_pos[piece].keys()):
+            win.blit(white_pieces_all[piece], white_pos[piece][j]['curr_pos'])
     
     
     black_pieces = list(black_pos.keys()) # a list of all the black pieces
     for i in range(len(black_pieces)):
         piece = black_pieces[i]
-        for j in range(len(list(black_pos[piece].keys()))):
-            win.blit(black_pieces_all[piece], black_pos[piece][str(j+1)]['curr_pos'])
+        for j in list(black_pos[piece].keys()):
+            win.blit(black_pieces_all[piece], black_pos[piece][j]['curr_pos'])
 
 def draw_board():
     rects = []
@@ -103,6 +103,7 @@ def draw_board():
             iter = 1
     return rects
 
+clicked = {'clicked': False, 'piece': '', 'n': ''}
 rects = draw_board()
 draw_pieces()
 running = True
@@ -117,13 +118,17 @@ while running:
                     rects = draw_board()
                     draw_pieces()
                     clicked_pos = rect.topleft
-
-                    piece, n = find_piece(black_pos, clicked_pos)
-                    print(piece, n)
-                    if piece and n:
+                    if clicked['clicked']:
+                        op_pieces = white_pos
+                        op_pieces_pos = [] # opponent's pieces positions
+                        # get all the positions of the opponent's pieces
+                        for i in op_pieces.keys():
+                            for j in op_pieces[i].keys():
+                                pos = op_pieces[i][j]['curr_pos']
+                                op_pieces_pos.append(pos)
                         curr_pos = black_pos[piece][n]['curr_pos']
-                        
-                        new_piece = PossiblePositions(black_pos[piece], piece)
+                    
+                        new_piece = PossiblePositions(black_pos[piece], piece, 'black')
                         pos_pos = black_pos[piece][n]['pos_pos']
                         if piece == 'rook':
                             available_pos = check_rook_available_positions(pos_pos, curr_pos, black_pos, white_pos)
@@ -136,13 +141,53 @@ while running:
                         elif piece == 'king':
                             available_pos = check_king_available_positions(pos_pos, curr_pos, black_pos, white_pos)
                         elif piece == 'pawn':
-                            available_pos = check_pawn_available_positions(pos_pos, curr_pos, black_pos, white_pos, n)
+                            available_pos = check_pawn_available_positions(pos_pos, curr_pos, black_pos, white_pos, n, 'black')
+                        print(clicked_pos, curr_pos)
+                        if clicked_pos == curr_pos:
+                            for i in range(len(available_pos)):
+                                x, y = available_pos[i]
+                                x = x + 50
+                                y = y + 50
+                                pygame.draw.circle(win, (125,125,125), (x,y) , 10)
+                        elif clicked_pos in available_pos:
+                            black_pos[piece][n]['curr_pos'] = clicked_pos
+                            if clicked_pos in op_pieces_pos:
+                                op_piece, op_n = find_piece(white_pos, clicked_pos)
+                                print(op_piece, op_n)
+                                del white_pos[op_piece][op_n]
+                            rects = draw_board()
+                            draw_pieces()
+                            clicked['clicked'] = False   
+                        else:
+                            clicked['clicked'] = False 
                         
-                        for i in range(len(available_pos)):
-                            x, y = available_pos[i]
-                            x = x + 50
-                            y = y + 50
-                            pygame.draw.circle(win, (125,125,125), (x,y) , 10)
-        
+                    if not clicked['clicked']: 
+                        piece, n = find_piece(black_pos, clicked_pos)
+                        if piece and n:
+                            curr_pos = black_pos[piece][n]['curr_pos']
+                            
+                            new_piece = PossiblePositions(black_pos[piece], piece, 'black')
+                            pos_pos = black_pos[piece][n]['pos_pos']
+                            if piece == 'rook':
+                                available_pos = check_rook_available_positions(pos_pos, curr_pos, black_pos, white_pos)
+                            elif piece == 'bishop':
+                                available_pos = check_bishop_available_positions(pos_pos, curr_pos, black_pos, white_pos)
+                            elif piece == 'knight':
+                                available_pos = check_knight_available_positions(pos_pos, curr_pos, black_pos, white_pos)
+                            elif piece == 'queen':
+                                available_pos = check_queen_available_positions(pos_pos, curr_pos, black_pos, white_pos)
+                            elif piece == 'king':
+                                available_pos = check_king_available_positions(pos_pos, curr_pos, black_pos, white_pos)
+                            elif piece == 'pawn':
+                                available_pos = check_pawn_available_positions(pos_pos, curr_pos, black_pos, white_pos, n, 'black')
+
+                            for i in range(len(available_pos)):
+                                x, y = available_pos[i]
+                                x = x + 50
+                                y = y + 50
+                                pygame.draw.circle(win, (125,125,125), (x,y) , 10)
+                            clicked['clicked'] = True
+                            clicked['piece'] = piece
+                            clicked['n'] = n
     pygame.display.flip()
 
